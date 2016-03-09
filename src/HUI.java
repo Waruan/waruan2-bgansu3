@@ -129,8 +129,11 @@ public class HUI {
 	public HUI subtraction(HUI input){
 		boolean borrowflag = false;
 		if(len < input.getNumLength()){
-			System.out.printf("Negative number \n");
-			System.exit(0);
+			//System.out.printf("Negative number \n");
+			//System.exit(0);
+			//change to exception later
+			HUI negative = new HUI("-");
+			return negative;
 		}
 		int difference[]= new int[len];
 		for(int i=0;i<len;i++){
@@ -220,6 +223,47 @@ public class HUI {
 		return input;
 		
 	}*/
+	
+	public HUI division(HUI input){
+		if(len < input.getNumLength()){
+			System.out.println("Divider is greater than number");
+			System.exit(0);
+		}
+		//horrible way
+		HUI zero = new HUI("0");
+		HUI negative = new HUI("-");
+		int counter = 0;
+		HUI tmp = this;
+		while(zero.Equals(tmp) == false){
+			tmp = tmp.subtraction(input);
+			if(tmp.Equals(negative)){
+				tmp = zero;
+			}
+			else{
+				counter++;
+			}
+		}
+		String result = Integer.toString(counter);
+		HUI difference = new HUI(result);
+		return difference;
+		
+	}
+	
+	public boolean Equals(HUI input){
+		
+		if(input.getNumLength() == len ){
+			for(int i=0;i<len;i++){
+				if(number[i] != input.getNumAtIndex(i)){
+					return false;
+				}
+			}
+			return true;
+		}
+		
+		return false;
+	}
+	
+	
 	public HUI multiplication(HUI input){
 		HUI resultHUI = new HUI("0");
 		for(int i=0;i<input.getNumLength();i++){
@@ -265,10 +309,13 @@ public class HUI {
 		sum.R_display();
 		
 		
-		HUI test3 = new HUI("100000");
-		HUI test4 = new HUI("10");
-		HUI diff = test3.multiplication(test4);
+		HUI test3 = new HUI("342");
+		HUI test4 = new HUI("12");
+		HUI diff = test3.division(test4);
 		diff.R_display();
+		HUI test5 = new HUI("-");
+		test5.R_display();
+		
 	}
 
 }
