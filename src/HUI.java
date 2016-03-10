@@ -129,8 +129,15 @@ public class HUI {
 	public HUI subtraction(HUI input){
 		boolean borrowflag = false;
 		if(len < input.getNumLength()){
-			System.out.printf("Negative number \n");
-			System.exit(0);
+			//System.out.printf("Negative number \n");
+			//System.exit(0);
+			//change to exception later
+			HUI negative = new HUI("-");
+			return negative;
+		}
+		if(this.lessThan(input) == true){
+			HUI negative = new HUI("-");
+			return negative;
 		}
 		int difference[]= new int[len];
 		for(int i=0;i<len;i++){
@@ -220,6 +227,120 @@ public class HUI {
 		return input;
 		
 	}*/
+	
+	public HUI division(HUI input){
+		if(len < input.getNumLength()){
+			System.out.println("Divider is greater than number");
+			System.exit(0);
+		}
+		//horrible way
+		HUI zero = new HUI("0");
+		HUI negative = new HUI("-");
+		int counter = 0;
+		HUI tmp = this;
+		while(zero.Equals(tmp) == false){
+			//tmp.R_display();
+			tmp = tmp.subtraction(input);
+			
+			if(tmp.Equals(negative)){
+				tmp = zero;
+			}
+			else{
+				counter++;
+			}
+		}
+		String result = Integer.toString(counter);
+		HUI difference = new HUI(result);
+		return difference;
+		
+	}
+	
+	public HUI Mod(HUI input){
+		if(len < input.getNumLength()){
+			return this;
+		}
+		//horrible way
+		HUI zero = new HUI("0");
+		HUI negative = new HUI("-");
+		HUI tmp = this;
+		HUI tracker = tmp;
+		while(zero.Equals(tmp) == false){
+			tracker = tmp;
+			tmp = tmp.subtraction(input);
+			if(tmp.Equals(negative)){
+				tmp = zero;
+			}
+			else if(tmp.Equals(zero)){
+				tracker = tmp;
+			}
+		}
+		
+		return tracker;
+		
+	}
+	
+	public boolean Equals(HUI input){
+		
+		if(input.getNumLength() == len ){
+			for(int i=0;i<len;i++){
+				if(number[i] != input.getNumAtIndex(i)){
+					return false;
+				}
+			}
+			return true;
+		}
+		
+		return false;
+	}
+	
+	public boolean greaterThanOrEqual(HUI input){
+		if(this.Equals(input)){
+			return true;
+		}
+		
+		return (!(this.lessThan(input)));
+	}
+	
+	public boolean lessThanOrEqual(HUI input){
+		if(this.Equals(input)){
+			return true;
+		}
+		
+		return (this.lessThan(input));
+	}
+	
+	public boolean greaterThan(HUI input){
+		return (!(this.lessThan(input)));
+	}
+	
+	
+	public boolean lessThan(HUI input){
+		
+		if(input.getNumLength()>len){
+			return true;
+		}
+		else if(input.getNumLength()<len){
+			return false;
+		}
+		else{
+			if(this.Equals(input)){
+				return false;
+			}
+			for(int i =len-1;i>=0;i--){
+				if(number[i]<input.getNumAtIndex(i)){
+					return true;
+				}
+				else if(number[i]>input.getNumAtIndex(i)){
+					return false;
+				}
+			}
+		}
+		
+		return false;
+		
+	}
+	
+	
 	public HUI multiplication(HUI input){
 		HUI resultHUI = new HUI("0");
 		for(int i=0;i<input.getNumLength();i++){
@@ -256,19 +377,29 @@ public class HUI {
 		}
 		return resultHUI;
 	}	
-		
+	
 	public static void main(String[] args) {
 		//throw away 0
-		HUI test = new HUI("000009");
-		HUI test2 = new HUI("9");
-		HUI sum = test.addition(test2);
-		sum.R_display();
+		HUI test = new HUI("1");
+		HUI test2 = new HUI("3");
+		//HUI sum = test.subtraction(test2);
+		//sum.R_display();
 		
 		
-		HUI test3 = new HUI("100000");
-		HUI test4 = new HUI("10");
-		HUI diff = test3.multiplication(test4);
-		diff.R_display();
+		HUI test3 = new HUI("342");
+		HUI test4 = new HUI("12");
+		HUI diff = test3.division(test4);
+		//diff.R_display();
+		HUI test5 = new HUI("-");
+		//test5.R_display();
+		
+		HUI test6 = new HUI("12");
+		boolean temp = test6.lessThanOrEqual(new HUI("11"));
+		System.out.println(temp);
+		HUI tmp = test6.Mod(new HUI("10"));
+		tmp.R_display();
+		
+		
 	}
 
 }
