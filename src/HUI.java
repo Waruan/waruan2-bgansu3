@@ -228,7 +228,7 @@ public class HUI {
 		
 	}*/
 	
-	public HUI division(HUI input){
+	/*public HUI division(HUI input){
 		if(len < input.getNumLength()){
 			System.out.println("Divider is greater than number");
 			System.exit(0);
@@ -253,9 +253,125 @@ public class HUI {
 		HUI difference = new HUI(result);
 		return difference;
 		
+	}*/
+	public HUI division(HUI input){
+		HUI tracker;
+		HUI zero = new HUI("0");
+		HUI negative = new HUI("-");
+		HUI reminder = null;
+		String numChunck = "";
+		int counter = 0;
+		int[] result =  new int[len]; 
+		for(int i = 0;i<len;i++){
+			result[i] = 0;
+		}
+		
+		
+		for(int i = len-1;i>=0;i--){
+			
+			numChunck += Integer.toString(this.number[i]);
+			tracker = new HUI(numChunck);
+			
+			if(tracker.greaterThanOrEqual(input)){
+				while(zero.Equals(tracker) == false){
+					reminder = tracker;
+					tracker = tracker.subtraction(input);
+					if(tracker.Equals(negative)){
+						tracker = zero;
+					}
+					else if(tracker.Equals(zero)){
+						reminder = tracker;
+						counter++;
+					}
+					else{
+						counter++;
+					}
+				}
+				result[i] = counter;
+				//System.out.println(result[(len-1)-i]);
+				counter = 0;
+				numChunck="";
+				if(!(reminder.Equals(zero))){
+					for(int j = reminder.getNumLength()-1;j>=0;j--){
+						numChunck += Integer.toString(reminder.getNumAtIndex(j));
+					}
+				}
+			}
+			
+		}
+		numChunck = "";
+		for(int i = len-1;i>= 0;i--){
+			numChunck += Integer.toString(result[i]);
+			//System.out.println(result[i]);
+		}
+		
+		HUI quo = new HUI(numChunck);
+		
+		return quo;
+		
 	}
 	
+	
+	
 	public HUI Mod(HUI input){
+		HUI tracker;
+		HUI zero = new HUI("0");
+		HUI negative = new HUI("-");
+		HUI reminder = null;
+		String numChunck = "";
+		int counter = 0;
+		int[] result =  new int[len]; 
+		for(int i = 0;i<len;i++){
+			result[i] = 0;
+		}
+		if(this.lessThan(input)){
+			return this;
+		}
+		
+		for(int i = len-1;i>=0;i--){
+			
+			numChunck += Integer.toString(this.number[i]);
+			tracker = new HUI(numChunck);
+			
+			if(tracker.greaterThanOrEqual(input)){
+				while(zero.Equals(tracker) == false){
+					reminder = tracker;
+					tracker = tracker.subtraction(input);
+					if(tracker.Equals(negative)){
+						tracker = zero;
+					}
+					else if(tracker.Equals(zero)){
+						reminder = tracker;
+						counter++;
+					}
+					else{
+						counter++;
+					}
+				}
+				result[i] = counter;
+				//System.out.println(result[(len-1)-i]);
+				counter = 0;
+				numChunck="";
+				if(!(reminder.Equals(zero))){
+					for(int j = reminder.getNumLength()-1;j>=0;j--){
+						numChunck += Integer.toString(reminder.getNumAtIndex(j));
+					}
+				}
+			}
+			
+		}
+		numChunck = "";
+		for(int i = len-1;i>= 0;i--){
+			numChunck += Integer.toString(result[i]);
+			//System.out.println(result[i]);
+		}
+		
+		
+		return reminder;
+		
+	}
+	
+	/*public HUI Mod(HUI input){
 		if(len < input.getNumLength()){
 			return this;
 		}
@@ -277,7 +393,7 @@ public class HUI {
 		
 		return tracker;
 		
-	}
+	}*/
 	
 	public boolean Equals(HUI input){
 		
@@ -380,7 +496,7 @@ public class HUI {
 	
 	public static void main(String[] args) {
 		//throw away 0
-		HUI test = new HUI("1");
+	/*	HUI test = new HUI("1");
 		HUI test2 = new HUI("3");
 		//HUI sum = test.subtraction(test2);
 		//sum.R_display();
@@ -393,12 +509,17 @@ public class HUI {
 		HUI test5 = new HUI("-");
 		//test5.R_display();
 		
-		HUI test6 = new HUI("12");
-		boolean temp = test6.lessThanOrEqual(new HUI("11"));
+		HUI test6 = new HUI("100000000");
+		boolean temp = test6.lessThanOrEqual(new HUI("2"));
 		System.out.println(temp);
-		HUI tmp = test6.Mod(new HUI("10"));
-		tmp.R_display();
+		HUI tmp = test6.Mod(new HUI("2"));
+		tmp.R_display();*/
 		
+		HUI test = new HUI("5");
+		HUI result = test.division(new HUI("3"));
+		System.out.println("Main");
+		
+		result.R_display();
 		
 	}
 
