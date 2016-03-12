@@ -25,7 +25,12 @@ public class GUI extends JFrame implements ActionListener {
 	    buttons[5] = new Button("Decryption",5);
 	    
 	    for(int i=0;i<6;i++){
-	    	buttons[i].addActionListener(this);
+	    	if(i == 1){
+	    		buttons[i].addActionListener(this);
+	    	}
+	    	else{
+	    		buttons[i].addActionListener(new fileopener());
+	    	}
 	    	container.add(buttons[i]);
 	    }
 	    setSize( 300, 150 );
@@ -41,9 +46,9 @@ public class GUI extends JFrame implements ActionListener {
 	public void actionPerformed(ActionEvent event) {
 		Button temp = (Button) event.getSource();
 		int type = temp.getNumber();
-		if(type == 0 || type == 2 || type == 3 || type == 4 || type == 5 ){
-			subFrame subWindow = new subFrame("Enter File URL",type);
+		if(type == 1){
+			subFrame subWindow = new subFrame("Enter Prime Numbers",type);
 		}
 	}
-
+	
 }

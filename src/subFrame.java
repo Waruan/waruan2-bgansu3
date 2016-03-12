@@ -18,7 +18,7 @@ public class subFrame extends JFrame implements ActionListener  {
 	private int num;
 	subFrame(String text, int type){
 		super(text);
-		if(type == 0 || type == 2 || type == 3 || type == 4 || type == 5 ){
+		if(type == 1 ){
 			num = type;
 			grid = new BorderLayout(2,1);
 			button = new Button("Submit",type);
