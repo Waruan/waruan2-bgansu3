@@ -7,7 +7,7 @@ public class Utilities {
 		while(half.greaterThan(i)){
 			
 			HUI modResult = x.Mod(i);
-			if(modResult.Equals(0)){
+			if(modResult.HUIequals(0)){
 				
 				return false;
 			}
@@ -17,14 +17,14 @@ public class Utilities {
 	}
 	
 	public static boolean coPrime(HUI a,HUI b){
-		if(gcd(a,b).Equals(1)){
+		if(gcd(a,b).HUIequals(1)){
 			return true;
 		}
 		return false;
 	}
 
 	public static HUI gcd(HUI a,HUI b){
-		if(b.Equals(0)){
+		if(b.HUIequals(0)){
 			return a;
 		}
 		else{
