@@ -2,13 +2,17 @@
 public class HUI {
 	private int len;
 	private int number[];
-	
+	private String text;
 	HUI(String input){
+		text = input;
 		len = input.length();
 		input = checkInput(input);
 		number = new int[len];
 		praseInput(input);
 		
+	}
+	public String getString(){
+		return text;
 	}
 	private String checkInput(String input){
 		int counter = 0;
@@ -821,6 +825,11 @@ public class HUI {
 		System.out.println(coPrime);
 		boolean prime =  Utilities.isPrime(new HUI("16420"));
 		System.out.println(prime);
+		HUI test3 = new HUI("342");
+		test3 = test3.addition(new HUI("16420"));
+		String temp = test3.getString();
+		System.out.println(temp);
+		
 	}
 
 }
