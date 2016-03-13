@@ -371,13 +371,13 @@ public class HUI {
 			tracker = new HUI(numChunck);
 			
 			if(tracker.greaterThanOrEqual(input)){
-				while(zero.Equals(tracker) == false){
+				while(zero.HUIequals(tracker) == false){
 					reminder = tracker;
 					tracker = tracker.subtraction(input);
-					if(tracker.Equals(negative)){
+					if(tracker.HUIequals(negative)){
 						tracker = zero;
 					}
-					else if(tracker.Equals(zero)){
+					else if(tracker.HUIequals(zero)){
 						reminder = tracker;
 						counter++;
 					}
@@ -389,7 +389,7 @@ public class HUI {
 				//System.out.println(result[(len-1)-i]);
 				counter = 0;
 				numChunck="";
-				if(!(reminder.Equals(zero))){
+				if(!(reminder.HUIequals(zero))){
 					for(int j = reminder.getNumLength()-1;j>=0;j--){
 						numChunck += Integer.toString(reminder.getNumAtIndex(j));
 					}
@@ -430,13 +430,13 @@ public class HUI {
 			tracker = new HUI(numChunck);
 			
 			if(tracker.greaterThanOrEqual(input)){
-				while(zero.Equals(tracker) == false){
+				while(zero.HUIequals(tracker) == false){
 					reminder = tracker;
 					tracker = tracker.subtraction(input);
-					if(tracker.Equals(negative)){
+					if(tracker.HUIequals(negative)){
 						tracker = zero;
 					}
-					else if(tracker.Equals(zero)){
+					else if(tracker.HUIequals(zero)){
 						reminder = tracker;
 						counter++;
 					}
@@ -448,7 +448,7 @@ public class HUI {
 				//System.out.println(result[(len-1)-i]);
 				counter = 0;
 				numChunck="";
-				if(!(reminder.Equals(zero))){
+				if(!(reminder.HUIequals(zero))){
 					for(int j = reminder.getNumLength()-1;j>=0;j--){
 						numChunck += Integer.toString(reminder.getNumAtIndex(j));
 					}
@@ -491,14 +491,14 @@ public class HUI {
 			tracker = new HUI(numChunck);
 			reminder = tracker;
 			if(tracker.greaterThanOrEqual(input)){
-				while(zero.Equals(tracker) == false){
+				while(zero.HUIequals(tracker) == false){
 					reminder = tracker;
 					tracker = tracker.subtraction(input);
-					if(tracker.Equals(negative)){
+					if(tracker.HUIequals(negative)){
 						tracker = zero;
 	
 					}
-					else if(tracker.Equals(zero)){
+					else if(tracker.HUIequals(zero)){
 						reminder = tracker;
 						counter++;
 					}
@@ -510,7 +510,7 @@ public class HUI {
 				//System.out.println(result[(len-1)-i]);
 				counter = 0;
 				numChunck="";
-				if(!(reminder.Equals(zero))){
+				if(!(reminder.HUIequals(zero))){
 					for(int j = reminder.getNumLength()-1;j>=0;j--){
 						numChunck += Integer.toString(reminder.getNumAtIndex(j));
 					}
@@ -551,13 +551,13 @@ public class HUI {
 			tracker = new HUI(numChunck);
 			reminder = tracker;
 			if(tracker.greaterThanOrEqual(input)){
-				while(zero.Equals(tracker) == false){
+				while(zero.HUIequals(tracker) == false){
 					reminder = tracker;
 					tracker = tracker.subtraction(input);
-					if(tracker.Equals(negative)){
+					if(tracker.HUIequals(negative)){
 						tracker = zero;
 					}
-					else if(tracker.Equals(zero)){
+					else if(tracker.HUIequals(zero)){
 						reminder = tracker;
 						counter++;
 					}
@@ -569,7 +569,7 @@ public class HUI {
 				//System.out.println(result[(len-1)-i]);
 				counter = 0;
 				numChunck="";
-				if(!(reminder.Equals(zero))){
+				if(!(reminder.HUIequals(zero))){
 					for(int j = reminder.getNumLength()-1;j>=0;j--){
 						numChunck += Integer.toString(reminder.getNumAtIndex(j));
 					}
@@ -589,7 +589,7 @@ public class HUI {
 	}
 	
 
-	public boolean Equals(HUI input){
+	public boolean HUIequals(HUI input){
 		
 		if(input.getNumLength() == len ){
 			for(int i=0;i<len;i++){
@@ -603,7 +603,7 @@ public class HUI {
 		return false;
 	}
 	
-	public boolean Equals(int num){
+	public boolean HUIequals(int num){
 		
 		HUI input = new HUI(Integer.toString(num) );
 		
@@ -620,7 +620,7 @@ public class HUI {
 	}
 	
 	public boolean greaterThanOrEqual(HUI input){
-		if(this.Equals(input)){
+		if(this.HUIequals(input)){
 			return true;
 		}
 		
@@ -628,14 +628,23 @@ public class HUI {
 	}
 
 	public boolean greaterThanOrEqual(int input){
-		if(this.Equals(input)){
+		if(this.HUIequals(input)){
 			return true;
 		}
 		
 		return (!(this.lessThan(input)));
 	}
 	public boolean lessThanOrEqual(HUI input){
-		if(this.Equals(input)){
+		if(this.HUIequals(input)){
+			return true;
+		}
+		
+		return (this.lessThan(input));
+	}
+	
+	public boolean lessThanOrEqual(int num){
+		HUI input = new HUI(Integer.toString(num) );	
+		if(this.HUIequals(input)){
 			return true;
 		}
 		
@@ -661,7 +670,7 @@ public class HUI {
 			return false;
 		}
 		else{
-			if(this.Equals(input)){
+			if(this.HUIequals(input)){
 				return false;
 			}
 			for(int i =len-1;i>=0;i--){
@@ -687,7 +696,7 @@ public class HUI {
 			return false;
 		}
 		else{
-			if(this.Equals(input)){
+			if(this.HUIequals(input)){
 				return false;
 			}
 			for(int i =len-1;i>=0;i--){

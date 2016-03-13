@@ -7,12 +7,12 @@ public class HUITest {
   private HUI a = new HUI("123");
   
   @Test
-  public void testEQUALS() {
-    assertTrue(a.Equals(new HUI("123")));
-    assertTrue(a.equals(123));
+  public void testHUIequals() {
+    assertTrue(a.HUIequals(new HUI("123")));
+    assertTrue(a.HUIequals(123));
     
-    assertFalse(a.Equals(new HUI("122")));
-    assertFalse(a.Equals(122));
+    assertFalse(a.HUIequals(new HUI("122")));
+    assertFalse(a.HUIequals(122));
   }
   
   @Test
@@ -55,54 +55,55 @@ public class HUITest {
   @Test
   public void testAddition() {
     HUI b = a.addition(new HUI("123"));
-    assertTrue(b.equals(new HUI("246")));
+    assertTrue(b.HUIequals(new HUI("246")));
     
     b = a.addition(123);
-    assertTrue(b.equals(246));
+    assertTrue(b.HUIequals(246));
   }
   
   @Test
   public void testSubtraction() {
     HUI b = a.subtraction(new HUI("23"));
-    assertTrue(b.equals(new HUI("100")));
+    assertTrue(b.HUIequals(new HUI("100")));
     
     b = a.subtraction(23);
-    assertTrue(b.equals(100));
+    assertTrue(b.HUIequals(100));
   }
   
   @Test
   public void testMultiplication() {
     HUI b = a.multiplication(new HUI("11"));
-    assertTrue(b.equals(new HUI("1353")));
+    assertTrue(b.HUIequals(new HUI("1353")));
     
     b = a.multiplication(11);
-    assertTrue(b.equals(1353));
+    assertTrue(b.HUIequals(1353));
   }
   
   @Test
   public void testDivision() {
     HUI a = new HUI("256");
     HUI b = a.division(new HUI("8"));
-    assertTrue(b.equals(new HUI("32")));
+    assertTrue(b.HUIequals(new HUI("32")));
     
     b = a.division(8);
-    assertTrue(b.equals(32));
+    assertTrue(b.HUIequals(32));
   }
   
   @Test
   public void testMod() {
     HUI a = new HUI("256");
     HUI b = a.Mod(new HUI("8"));
-    assertTrue(b.equals(new HUI("0")));
+    b.R_display();
+    assertTrue(b.HUIequals(new HUI("0")));
     
     b = a.Mod(8);
-    assertTrue(b.equals(0));
+    assertTrue(b.HUIequals(0));
     
     b = a.Mod(new HUI("6"));
-    assertTrue(b.equals(new HUI("4")));
+    assertTrue(b.HUIequals(new HUI("4")));
     
     b = a.Mod(6);
-    assertTrue(b.equals(4));
+    assertTrue(b.HUIequals(4));
   }
 
 }
