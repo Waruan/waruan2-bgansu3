@@ -1,12 +1,14 @@
 
 public class HUI {
 	private int len;
-	private int number[];
+	private int number[]; 
+	private String string;
 	
 	HUI(String input){
 		len = input.length();
 		input = checkInput(input);
 		number = new int[len];
+		string = input;
 		praseInput(input);
 		
 	}
@@ -49,6 +51,11 @@ public class HUI {
 			System.out.printf("%d",number[i]);
 		}
 		System.out.printf("\n");
+	}
+	
+	public String getString()
+	{
+	  return this.string;
 	}
 	
 	public int getNumAtIndex(int index){

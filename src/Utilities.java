@@ -1,6 +1,7 @@
-
 public class Utilities {
-	
+
+
+  
 	public static boolean isPrime(HUI x){
 		HUI half = x.division(2);
 		int i = 2;

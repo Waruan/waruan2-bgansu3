@@ -77,6 +77,11 @@ public class HUITest {
     
     b = a.multiplication(11);
     assertTrue(b.HUIequals(1353));
+    
+    HUI c = new HUI("3");
+    HUI d = new HUI("5");
+    
+    assertTrue(c.multiplication(d).HUIequals(15));
   }
   
   @Test
