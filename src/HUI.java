@@ -721,7 +721,8 @@ public class HUI {
 	public HUI multiplication(HUI input){
 		HUI resultHUI = new HUI("0");
 		for(int i=0;i<input.getNumLength();i++){
-			int tmpResult [] = new int [len+1];
+			int tmpResult [] = new int [len];
+	
 			int carry=0;
 			int reminder=0;
 			for(int j=0;j<len;j++){
@@ -729,36 +730,44 @@ public class HUI {
 				carry = value /10;
 				reminder = value %10;
 				tmpResult[j] = reminder;
+			
 			}
+
 			
 			String result ="";
 			if(carry >= 1){
 				result += Integer.toString(carry);
+				System.out.println(result);
 				for(int j = tmpResult.length-1;j>=0;j--){
 					result += Integer.toString(tmpResult[j]);
-					
+					//System.out.println(tmpResult[j]);
 				}
 			}
+			
 			else{
 				for(int j = tmpResult.length-1;j>=0;j--){
 					result += Integer.toString(tmpResult[j]);
 				}
 			}
+			
 			for(int j=0;j<i;j++){
 				result += "0";
 			}
-			
+			//System.out.println(result);
 			HUI tmpHUI = new HUI(result);
+			
 			resultHUI = resultHUI.addition(tmpHUI);
 			
 		}
 		return resultHUI;
 	}	
+
+	
 	public HUI multiplication(int num){
 		HUI input = new HUI(Integer.toString(num) );	
 		HUI resultHUI = new HUI("0");
 		for(int i=0;i<input.getNumLength();i++){
-			int tmpResult [] = new int [len+1];
+			int tmpResult [] = new int [len];
 			int carry=0;
 			int reminder=0;
 			for(int j=0;j<len;j++){
@@ -825,10 +834,11 @@ public class HUI {
 		System.out.println(coPrime);
 		boolean prime =  Utilities.isPrime(new HUI("16420"));
 		System.out.println(prime);
-		HUI test3 = new HUI("342");
-		test3 = test3.addition(new HUI("16420"));
+		HUI test3 = new HUI("300");
+		test3 = test3.multiplication(new HUI("125"));
 		String temp = test3.getString();
 		System.out.println(temp);
+
 		
 	}
 
