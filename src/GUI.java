@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JTextArea;
 
 @SuppressWarnings("serial")
 public class GUI extends JFrame implements ActionListener {
@@ -12,6 +13,7 @@ public class GUI extends JFrame implements ActionListener {
 	private GridLayout grid;
 	private Button buttons[] = new Button[6];
 	private String message[] = new String[6];
+	private JTextArea status;
 	
 	GUI(){
 		super();
@@ -33,12 +35,17 @@ public class GUI extends JFrame implements ActionListener {
 	    message[4] = "Choose a Public Key file to encrypt.";
 	    message[5] = "Choose a Private Key file to encrypt.";
 	    
+	    status = new JTextArea("Doing nothing...");
+	    status.setEditable(false);
+	    status.setSize(100, 20);
+	    
 	    for(int i=0;i<6;i++)
 	    {
 	    	buttons[i].addActionListener(this);
 	    	container.add(buttons[i]);
 	    }
-	    setSize( 300, 150 );
+	    container.add(status);
+	    setSize( 500, 150);
 	    setLocationRelativeTo(null);
 	    setVisible( true );
 	}
@@ -57,13 +64,26 @@ public class GUI extends JFrame implements ActionListener {
 		{
 		case 0:
 		  JOptionPane.showMessageDialog(this, message[type] , buttons[type].getText(), JOptionPane.PLAIN_MESSAGE);
+		  this.status.setText("Viewing a file...");
 		  FileUtilities.ViewAsciiFile();
 		  break;
 		case 1:
 		  boolean found = false;
 		  boolean canceled = false;
+		  HUI prime1 = new HUI("0");
+		  HUI prime2 = new HUI("0");
+		  int choice = PrimeGenOrInputPanel.showPanel();
 		  
-		  if(PrimeGenOrInputPanel.showPanel() == 2)
+		  if(choice == 1)
+		  {
+		    prime1 = FileUtilities.getRandomPrimeFromFile();
+		    prime2 = FileUtilities.getRandomPrimeFromFile();
+		    
+		    prime1.R_display();
+		    prime2.R_display();
+		    
+		  }
+		  else if(choice == 2)
 		  {
   		  while(!found && !canceled)
   		  {
@@ -71,36 +91,92 @@ public class GUI extends JFrame implements ActionListener {
   		      canceled = true;
   		    else
   		    {
-  		      HUI prime1 = PrimeNumberInputPanel.getPrime1();
-  		      HUI prime2 = PrimeNumberInputPanel.getPrime2();
-  		      if(Utilities.isPrime(prime1) && Utilities.isPrime(prime2))
-  		      {
-  		        KeyCreation key = new KeyCreation(prime1, prime2);
-  		        found = true;
-  		      }
-  		      else
-  		      {
-  		        int result = JOptionPane.showConfirmDialog(null, "Invalid prime number input(s), would you like to try again?", "Invalid primes", JOptionPane.YES_NO_OPTION); 
-  		        if(result == JOptionPane.YES_OPTION)
-  		        {
-  		          found = false;
-  		        }
-  		        else
-  		        {
-  		          canceled = true;
-  		        }
-  		      }
+  		      prime1 = PrimeNumberInputPanel.getPrime1();
+  		      prime2 = PrimeNumberInputPanel.getPrime2();
+  		      
   		    }
   		  }
 		  }
+  		if(choice == 1 || choice == 2)
+  		  this.status.setText("Checking primes for legality");
+  		  if(Utilities.isPrime(prime1) && Utilities.isPrime(prime2))
+        {
+  		    this.status.setText("Creating keys...");
+          KeyCreation key = new KeyCreation(prime1, prime2);
+          this.status.setText("Saving files...");
+          PublicKey publicKey = key.getPublicKey();
+          PrivateKey privateKey = key.getPrivateKey();
+          
+          // Checking if number of digits of n is greater than 8, since
+          // our blocking size of use is 8
+          if(publicKey.getN().getString().length() > 8)
+          {
+            String fileName = FileUtilities.promptUserForFileName("Enter filename for Public Key (without extensions): ");
+            if(fileName != "")
+              FileUtilities.writeAndSaveXMLFile(publicKey, fileName);
+            
+            
+            String fileName2 = FileUtilities.promptUserForFileName("Enter filename for Private Key (without extensions): ");
+            if(fileName2 != "")
+              FileUtilities.writeAndSaveXMLFile(privateKey, fileName2);
+            
+            found = true;
+          }
+          else
+          {
+            if(choice == 2)
+            {
+              int result = JOptionPane.showConfirmDialog(null,
+                  "Product of the two prime number is too small, would you like to try again?", "Invalid primes", JOptionPane.YES_NO_OPTION); 
+              if(result == JOptionPane.YES_OPTION)
+              {
+                found = false;
+              }
+              else
+              {
+                canceled = true;
+              }
+            }
+            else if(choice == 1)
+            {
+              JOptionPane.showMessageDialog(null, "Invalid prime number input(s)", "Invalid primes", JOptionPane.YES_OPTION);
+              canceled = true;
+            }
+          }
+        }
+        else
+        {
+          if(choice == 2)
+          {
+            int result = JOptionPane.showConfirmDialog(null, "Invalid prime number input(s)", "Invalid primes", JOptionPane.YES_NO_OPTION); 
+            if(result == JOptionPane.YES_OPTION)
+            {
+              found = false;
+            }
+            else
+            {
+              canceled = true;
+            }
+          }
+          else if(choice == 1)
+          {
+            JOptionPane.showMessageDialog(null, "Invalid prime number input(s)", "Invalid primes", JOptionPane.YES_OPTION);
+            canceled = true;
+          }
+        }
+  		  this.status.setText("Doing nothing...");
       break;
 		case 2:
 		  JOptionPane.showMessageDialog(this, message[type] , buttons[type].getText(), JOptionPane.PLAIN_MESSAGE);
+		  this.status.setText("Blocking a file...");
 		  Block.block();
+		  this.status.setText("Doing nothing...");
       break;
 		case 3:
 		  JOptionPane.showMessageDialog(this, message[type] , buttons[type].getText(), JOptionPane.PLAIN_MESSAGE);
+		  this.status.setText("Unblocking a file...");
 		  Block.unblock();
+		  this.status.setText("Doing nothing...");
       break;
 		case 4:
 		  JOptionPane.showMessageDialog(this, message[type] , buttons[type].getText(), JOptionPane.PLAIN_MESSAGE);

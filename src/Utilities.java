@@ -3,6 +3,9 @@ public class Utilities {
 
   
 	public static boolean isPrime(HUI x){
+	  if(x.lessThanOrEqual(1))
+	    return false;
+	  
 		HUI half = x.division(2);
 		int i = 2;
 		while(half.greaterThan(i)){

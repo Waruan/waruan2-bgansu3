@@ -55,8 +55,6 @@ public class KeyCreation {
   {
     HUI d = new HUI("1");
     
-    boolean found = false;
-    
     // Extended Euclidian, basically trying to find the inverse mod of e mod phi
     while(!d.multiplication(this.phivalue).addition(1).Mod(this.evalue).HUIequals(0)){
       d = d.addition(1);

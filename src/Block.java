@@ -14,9 +14,9 @@ public class Block {
       if(data != null)
       {
         blockAFile(data);
-        String fileName = FileUtilities.promptUserForFileName();
+        String fileName = FileUtilities.promptUserForFileName("Enter filename (without extensions): ");
         if(fileName != "")
-          FileUtilities.writeAndSaveTextFile(blockedData, fileName + ".txt");
+          FileUtilities.writeAndSaveTextFile(blockedData, fileName);
       }
       
     } catch (Exception e) {
@@ -68,9 +68,9 @@ public class Block {
       if(data != null)
       {
         unblockAFile(data);
-        String fileName = FileUtilities.promptUserForFileName();
+        String fileName = FileUtilities.promptUserForFileName("Enter filename (without extensions): ");
         if(fileName != "")
-          FileUtilities.writeAndSaveTextFile(unblockedData, fileName + ".txt");
+          FileUtilities.writeAndSaveTextFile(unblockedData, fileName);
       }
       
     } catch (Exception e) {
