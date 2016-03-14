@@ -724,7 +724,7 @@ public class HUI {
 	public HUI multiplication(HUI input){
 		HUI resultHUI = new HUI("0");
 		for(int i=0;i<input.getNumLength();i++){
-			int tmpResult [] = new int [len+1];
+			int tmpResult [] = new int [len];
 			int carry=0;
 			int reminder=0;
 			for(int j=0;j<len;j++){
@@ -761,7 +761,7 @@ public class HUI {
 		HUI input = new HUI(Integer.toString(num) );	
 		HUI resultHUI = new HUI("0");
 		for(int i=0;i<input.getNumLength();i++){
-			int tmpResult [] = new int [len+1];
+			int tmpResult [] = new int [len];
 			int carry=0;
 			int reminder=0;
 			for(int j=0;j<len;j++){
