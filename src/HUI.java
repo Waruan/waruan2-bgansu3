@@ -12,6 +12,8 @@ public class HUI {
 		praseInput(input);
 		
 	}
+	
+	//check length of input and remove leading zero
 	private String checkInput(String input){
 		int counter = 0;
 		String temp="";
@@ -31,6 +33,8 @@ public class HUI {
 			
 		return temp;
 	}
+	
+	// parse the input string into array
 	private void praseInput(String input){
 		int backCounter = len-1;
 		
@@ -39,25 +43,28 @@ public class HUI {
 			backCounter--;
 		}
 	}
-	
+	//display the array in regular order
 	public void display(){
 		for(int i = 0;i<len;i++){
 			System.out.printf("%d",number[i]);
 		}
 		System.out.printf("\n");
 	}
+	
+	//display the array in reverse order
 	public void R_display(){
 		for(int i = len-1;i>=0;i--){
 			System.out.printf("%d",number[i]);
 		}
 		System.out.printf("\n");
 	}
-	
+	//return the string version of the number
 	public String getString()
 	{
 	  return this.string;
 	}
 	
+	// return value in array at a given index
 	public int getNumAtIndex(int index){
 		if(index > len-1){
 			return -1;
@@ -65,26 +72,32 @@ public class HUI {
 		return number[index];
 	}
 
-	
+	// return length of array
 	public int getNumLength(){
 		return len;
 	}
 	
 
 	
-	
+	// take HUI input and add it to this HUI and return a new HUI
 	public HUI addition(HUI input){
 		int sum[];
 		int len1 = input.getNumLength();
+		// create a new int array of with the length of input
 		if(len1>=len){
 			sum = new int[len1];
 		}
+		// create a new int array of with the length of this HUI
 		else{
 			sum = new int[len];
 		}
 		int sumLen = sum.length;
 		int carry =0;
+		
+		//loop through HUI and add the value of input and this add index i
+		//combine value is greater than 9 then it will be carry to next index
 		for(int i = 0;i<sumLen;i++){
+			
 			if(i>= len){
 				sum[i] = input.getNumAtIndex(i) + carry;
 				//System.out.printf("%c" ,sum[i]);
@@ -103,6 +116,10 @@ public class HUI {
 				sum[i] = sum[i]%10;
 			}
 		}
+		
+		// create a new string with the array of int
+		// use to create a new HUI
+		
 		String result="";
 		if(carry >= 1){
 			result += Integer.toString(carry);
@@ -124,6 +141,8 @@ public class HUI {
 		
 	}
 	
+	/* parameter overloading of addition 
+	 * addition can take a int as the parameter*/
 	public HUI addition(int num){
 		HUI input = new HUI(Integer.toString(num) );
 		int sum[];
@@ -178,7 +197,7 @@ public class HUI {
 	
 
 	
-
+	// take HUI input and subtract it to this HUI and return a new HUI
 	public HUI subtraction(HUI input){
 		boolean borrowflag = false;
 		if(len < input.getNumLength()){
@@ -193,6 +212,15 @@ public class HUI {
 			return negative;
 		}
 		int difference[]= new int[len];
+		
+		/*
+		 * loop through HUI array and subtract the value of input and this at index i 
+		 * if this HUI at index i is less than input at index i 
+		 * it "borrow" 10 from the next index then the value at next index is subtracted by 1
+		 * if the next value is negative then it "borrow" from it next index this continue until there no 
+		 * negative or exit if it there no next index
+		*/
+		
 		for(int i=0;i<len;i++){
 			
 			if(input.getNumAtIndex(i)==-1){
@@ -267,7 +295,8 @@ public class HUI {
 		return returndifference;
 	}
 	
-	
+	/* parameter overloading of subtraction 
+	 * subtraction can take a int as the parameter*/
 	public HUI subtraction(int num){
 		
 		HUI input = new HUI(Integer.toString(num) );
@@ -358,7 +387,30 @@ public class HUI {
 		return returndifference;
 	}
 	
-
+	/* Divide this HUI by input
+	 * 
+	 * Loop through this HUI from the most significant to least significant
+	 * Check the value at index i and see is the value greater than or equal to input
+	 * create a new HUI with value at index i
+	 * if greater loop subtraction on the value until it is less than
+	 * Take the number of time that subtraction was done and add it to the predefine array at index i
+	 * 
+	 * if there is reminder from loop of subtraction
+	 * take that value and add the next most significant to it
+	 * and create a new HUI with it 
+	 * 
+	 * 
+	 * Example
+	 * 	reminder equal to 1
+	 *  next value is 2
+	 *  new HUI of 12
+	 *  
+	 *  
+	 *  
+	 *  the string create from the result array will contain the answer
+	 *  
+	 */
+	
 	public HUI division(HUI input){
 		HUI tracker;
 		HUI zero = new HUI("0");
@@ -416,7 +468,8 @@ public class HUI {
 		
 	}
 	
-	
+	/* parameter overloading of division 
+	 * division can take a int as the parameter*/
 	public HUI division(int num){
 		HUI input = new HUI(Integer.toString(num) );
 		HUI tracker;
@@ -476,7 +529,11 @@ public class HUI {
 	}
 	
 	
-	
+	/*
+	 * Same as division exact that it return the new HUI create with the reminder instead
+	 * of the result
+	 * 
+	 */
 	public HUI Mod(HUI input){
 		HUI tracker;
 		HUI zero = new HUI("0");
@@ -535,7 +592,8 @@ public class HUI {
 		return reminder;
 		
 	}
-
+	/* parameter overloading of Mod 
+	 * Mod can take a int as the parameter*/
 	public HUI Mod(int num){
 		HUI input = new HUI(Integer.toString(num) );
 		HUI tracker;
@@ -595,7 +653,10 @@ public class HUI {
 		
 	}
 	
-
+	/*
+	 * Compare if two HUI are equal
+	 * is so return true else return false
+	 */
 	public boolean HUIequals(HUI input){
 		
 		if(input.getNumLength() == len ){
@@ -609,7 +670,8 @@ public class HUI {
 		
 		return false;
 	}
-	
+	/* parameter overloading of HUIequals 
+	 * HUIequals can take a int as the parameter*/
 	public boolean HUIequals(int num){
 		
 		HUI input = new HUI(Integer.toString(num) );
@@ -625,7 +687,10 @@ public class HUI {
 		
 		return false;
 	}
-	
+	/*
+	 * Compare if this HUI is greater than or equal to input
+	 * is so return true else return false
+	 */
 	public boolean greaterThanOrEqual(HUI input){
 		if(this.HUIequals(input)){
 			return true;
@@ -633,7 +698,8 @@ public class HUI {
 		
 		return (!(this.lessThan(input)));
 	}
-
+	/* parameter overloading of greaterThanOrEqual 
+	 * greaterThanOrEqual can take a int as the parameter*/
 	public boolean greaterThanOrEqual(int input){
 		if(this.HUIequals(input)){
 			return true;
@@ -641,6 +707,11 @@ public class HUI {
 		
 		return (!(this.lessThan(input)));
 	}
+	
+	/*
+	 *  Compare if this HUI is less than or equal to input
+	 * is so return true else return false
+	 */
 	public boolean lessThanOrEqual(HUI input){
 		if(this.HUIequals(input)){
 			return true;
@@ -649,6 +720,8 @@ public class HUI {
 		return (this.lessThan(input));
 	}
 	
+	/* parameter overloading of greaterThanOrEqual 
+	 * greaterThanOrEqual can take a int as the parameter*/
 	public boolean lessThanOrEqual(int num){
 		HUI input = new HUI(Integer.toString(num) );	
 		if(this.HUIequals(input)){
@@ -657,16 +730,26 @@ public class HUI {
 		
 		return (this.lessThan(input));
 	}
-	
+	/*
+	 *  Compare if this HUI are greater to input
+	 * is so return true else return false
+	 */
 	public boolean greaterThan(HUI input){
 		return (!(this.lessThan(input)));
 	}
+	/* parameter overloading of greaterThan 
+	 * greaterThan can take a int as the parameter*/
 	public boolean greaterThan(int num){
 		
 		HUI input = new HUI(Integer.toString(num) );	
 		return (!(this.lessThan(input)));
 	}
 	
+	
+	/*
+	 *  Compare if this HUI are less than to input
+	 * is so return true else return false
+	 */
 	
 	public boolean lessThan(HUI input){
 		
@@ -693,7 +776,8 @@ public class HUI {
 		return false;
 		
 	}
-	
+	/* parameter overloading of lessThan 
+	 * lessThan can take a int as the parameter*/
 	public boolean lessThan(int num){
 		HUI input = new HUI(Integer.toString(num) );
 		if(input.getNumLength()>len){
@@ -719,7 +803,17 @@ public class HUI {
 		return false;
 		
 	}
-	
+	/*
+	 * loop through input HUI array and multple every individual value in the HUI array
+	 * with the value at index i in input
+	 * 
+	 * if result is greater than 9 
+	 * mod the result with 10 to get value for new value 
+	 * and result value divide by 10 for the carry over value
+	 * 
+	 * create a new HUI with result array and add that to the resultHUI
+	 * 
+	 */
 	
 	public HUI multiplication(HUI input){
 		HUI resultHUI = new HUI("0");
@@ -757,6 +851,8 @@ public class HUI {
 		}
 		return resultHUI;
 	}	
+	/* parameter overloading of multiplication 
+	 * multiplication can take a int as the parameter*/
 	public HUI multiplication(int num){
 		HUI input = new HUI(Integer.toString(num) );	
 		HUI resultHUI = new HUI("0");
@@ -795,9 +891,11 @@ public class HUI {
 		return resultHUI;
 	}
 	
-	public static void main(String[] args) {
+	
+	
+	/*public static void main(String[] args) {
 		//throw away 0
-	/*	HUI test = new HUI("1");
+		HUI test = new HUI("1");
 		HUI test2 = new HUI("3");
 		//HUI sum = test.subtraction(test2);
 		//sum.R_display();
@@ -814,13 +912,13 @@ public class HUI {
 		boolean temp = test6.lessThanOrEqual(new HUI("2"));
 		System.out.println(temp);
 		HUI tmp = test6.Mod(new HUI("2"));
-		tmp.R_display();*/
+		tmp.R_display();
 		
 		//HUI result = test.division(new HUI("3"));
-		/*System.out.println("Main");
+		System.out.println("Main");
 		HUI test = new HUI("16420");
 		HUI tmp = test.Mod(new HUI("2"));
-		tmp.R_display();*/
+		tmp.R_display();
 		
 		
 		//result.R_display();
@@ -828,7 +926,10 @@ public class HUI {
 		System.out.println(coPrime);
 		boolean prime =  Utilities.isPrime(new HUI("16420"));
 		System.out.println(prime);
-	}
+		HUI test = new HUI("1");
+		test = test.addition(12);
+		test.R_display();
+	}*/
 
 }
 
