@@ -1,4 +1,5 @@
 import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -15,7 +16,7 @@ public class PrimeNumberInputPanel {
     JTextField prime2Field = new JTextField(12);
     
     JPanel panel = new JPanel();
-    
+    panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
     panel.add(new JLabel("prime1: "));
     panel.add(prime1Field);
     panel.add(Box.createHorizontalStrut(15));

@@ -735,14 +735,14 @@ public class HUI {
 	 * is so return true else return false
 	 */
 	public boolean greaterThan(HUI input){
-		return (!(this.lessThan(input)));
+		return (!(this.lessThanOrEqual(input)));
 	}
 	/* parameter overloading of greaterThan 
 	 * greaterThan can take a int as the parameter*/
 	public boolean greaterThan(int num){
 		
 		HUI input = new HUI(Integer.toString(num) );	
-		return (!(this.lessThan(input)));
+		return (!(this.lessThanOrEqual(input)));
 	}
 	
 	
@@ -851,6 +851,14 @@ public class HUI {
 		}
 		return resultHUI;
 	}	
+	 /*
+  34 x 46
+  -------
+     204          // these values are stored in the
+    136           // two dimensional array mat[][];
+  -------
+   1564   // this the value stored in "Bignum ret"
+*/       
 	/* parameter overloading of multiplication 
 	 * multiplication can take a int as the parameter*/
 	public HUI multiplication(int num){

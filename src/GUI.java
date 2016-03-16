@@ -2,44 +2,45 @@ import java.awt.Container;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JTextArea;
+import javax.swing.JRadioButton;
 
 @SuppressWarnings("serial")
 public class GUI extends JFrame implements ActionListener {
 	private Container container;
 	private GridLayout grid;
-	private Button buttons[] = new Button[6];
-	private String message[] = new String[6];
-	private JTextArea status;
+	private Button buttons[] = new Button[7];
+	private String message[] = new String[7];
+	private JLabel status;
 	
 	GUI(){
 		super();
-		grid = new GridLayout(3,3,3,3);	//set dem of layout
+		grid = new GridLayout(4,4,3,3);	//set dem of layout
 		container = getContentPane();		//get the container
 		container.setLayout(grid);			//set grid as the layout
 	
 	    buttons[0] = new Button("View ASCII File",0);
-	    buttons[1] = new Button("Key Creation",1);
-	    buttons[2] = new Button("Block a File",2);
-	    buttons[3] = new Button("Unblock a File",3);
-	    buttons[4] = new Button("Encryption",4);
-	    buttons[5] = new Button("Decryption",5);
+	    buttons[1] = new Button("Create ASCII File", 1);
+	    buttons[2] = new Button("Key Creation",2);
+	    buttons[3] = new Button("Block a File",3);
+	    buttons[4] = new Button("Unblock a File",4);
+	    buttons[5] = new Button("Encryption",5);
+	    buttons[6] = new Button("Decryption",6);
 	    
 	    message[0] = "Choose an ASCII file to view.";
-	    message[1] = "Selecting Prime numbers.";
-	    message[2] = "Choose a file to be blocked.";
-	    message[3] = "Choose a file to be unblocked.";
-	    message[4] = "Choose a Public Key file to encrypt.";
-	    message[5] = "Choose a Private Key file to encrypt.";
+	    message[1] = "Create an ASCII file";
+	    message[2] = "Selecting Prime numbers.";
+	    message[3] = "Choose a file to be blocked.";
+	    message[4] = "Choose a file to be unblocked.";
+	    message[5] = "Choose a Public Key file to encrypt.";
+	    message[6] = "Choose a Private Key file to encrypt.";
 	    
-	    status = new JTextArea("Doing nothing...");
-	    status.setEditable(false);
-	    status.setSize(100, 20);
-	    
-	    for(int i=0;i<6;i++)
+	    status = new JLabel("Status: Doing nothing...");
+	    for(int i=0;i<7;i++)
 	    {
 	    	buttons[i].addActionListener(this);
 	    	container.add(buttons[i]);
@@ -63,16 +64,26 @@ public class GUI extends JFrame implements ActionListener {
 		switch(type)
 		{
 		case 0:
+		  this.status.setText("Status: Viewing a file...");
 		  JOptionPane.showMessageDialog(this, message[type] , buttons[type].getText(), JOptionPane.PLAIN_MESSAGE);
-		  this.status.setText("Viewing a file...");
 		  FileUtilities.ViewAsciiFile();
+		  this.status.setText("Status: Doing nothing...");
 		  break;
 		case 1:
-		  boolean found = false;
+		  this.status.setText("Status: Creating a file...");
+		  JOptionPane.showMessageDialog(this, message[type] , buttons[type].getText(), JOptionPane.PLAIN_MESSAGE);
+		  FileUtilities.asciiEditor();
+		  this.status.setText("Status: Doing nothing...");
+		  break;
+		case 2:
+		  this.status.setText("Status: Creating keys...");
 		  boolean canceled = false;
 		  HUI prime1 = new HUI("0");
 		  HUI prime2 = new HUI("0");
-		  int choice = PrimeGenOrInputPanel.showPanel();
+		  JRadioButton one = new JRadioButton("I'd like you to randomly generate two prime numbers");
+		  JRadioButton two = new JRadioButton("I would like to provide two prime numbers");
+		  int choice = TwoRadioButtonPanel.showPanel(one,
+		      two, "Input vs Generate primes");
 		  
 		  if(choice == 1)
 		  {
@@ -85,104 +96,122 @@ public class GUI extends JFrame implements ActionListener {
 		  }
 		  else if(choice == 2)
 		  {
-  		  while(!found && !canceled)
-  		  {
-  		    if(!PrimeNumberInputPanel.showPanel())
-  		      canceled = true;
-  		    else
-  		    {
-  		      prime1 = PrimeNumberInputPanel.getPrime1();
-  		      prime2 = PrimeNumberInputPanel.getPrime2();
-  		      
-  		    }
-  		  }
+		    if(!PrimeNumberInputPanel.showPanel())
+		    {
+		      canceled = true;
+		    }
+		    else
+		    {
+		      prime1 = PrimeNumberInputPanel.getPrime1();
+		      prime2 = PrimeNumberInputPanel.getPrime2();
+		    }
 		  }
-  		if(choice == 1 || choice == 2)
-  		  this.status.setText("Checking primes for legality");
+  		if((choice == 1 || choice == 2) && (!canceled))
+  		{
   		  if(Utilities.isPrime(prime1) && Utilities.isPrime(prime2))
         {
-  		    this.status.setText("Creating keys...");
           KeyCreation key = new KeyCreation(prime1, prime2);
-          this.status.setText("Saving files...");
           PublicKey publicKey = key.getPublicKey();
           PrivateKey privateKey = key.getPrivateKey();
           
-          // Checking if number of digits of n is greater than 8, since
-          // our blocking size of use is 8
+//           Checking if number of digits of n is greater than 8, since
+//           our blocking size of use is 8
           if(publicKey.getN().getString().length() > 8)
           {
             String fileName = FileUtilities.promptUserForFileName("Enter filename for Public Key (without extensions): ");
-            if(fileName != "")
+            if(fileName != null)
               FileUtilities.writeAndSaveXMLFile(publicKey, fileName);
             
             
             String fileName2 = FileUtilities.promptUserForFileName("Enter filename for Private Key (without extensions): ");
-            if(fileName2 != "")
+            if(fileName2 != null)
               FileUtilities.writeAndSaveXMLFile(privateKey, fileName2);
-            
-            found = true;
           }
           else
           {
-            if(choice == 2)
-            {
-              int result = JOptionPane.showConfirmDialog(null,
-                  "Product of the two prime number is too small, would you like to try again?", "Invalid primes", JOptionPane.YES_NO_OPTION); 
-              if(result == JOptionPane.YES_OPTION)
-              {
-                found = false;
-              }
-              else
-              {
-                canceled = true;
-              }
-            }
-            else if(choice == 1)
-            {
-              JOptionPane.showMessageDialog(null, "Invalid prime number input(s)", "Invalid primes", JOptionPane.YES_OPTION);
-              canceled = true;
-            }
+            JOptionPane.showMessageDialog(null,
+                  "Product of the two prime number is too small", "Invalid primes", JOptionPane.OK_OPTION); 
           }
         }
-        else
-        {
-          if(choice == 2)
-          {
-            int result = JOptionPane.showConfirmDialog(null, "Invalid prime number input(s)", "Invalid primes", JOptionPane.YES_NO_OPTION); 
-            if(result == JOptionPane.YES_OPTION)
-            {
-              found = false;
-            }
-            else
-            {
-              canceled = true;
-            }
-          }
-          else if(choice == 1)
-          {
-            JOptionPane.showMessageDialog(null, "Invalid prime number input(s)", "Invalid primes", JOptionPane.YES_OPTION);
-            canceled = true;
-          }
-        }
-  		  this.status.setText("Doing nothing...");
-      break;
-		case 2:
-		  JOptionPane.showMessageDialog(this, message[type] , buttons[type].getText(), JOptionPane.PLAIN_MESSAGE);
-		  this.status.setText("Blocking a file...");
-		  Block.block();
-		  this.status.setText("Doing nothing...");
+  		  else
+  		  {
+          JOptionPane.showMessageDialog(null, "Invalid prime number input(s)", "Invalid primes", JOptionPane.OK_OPTION);
+  		  }
+  		}
+  		this.status.setText("Status: Doing nothing...");
       break;
 		case 3:
+		  this.status.setText("Status: Blocking a file...");
 		  JOptionPane.showMessageDialog(this, message[type] , buttons[type].getText(), JOptionPane.PLAIN_MESSAGE);
-		  this.status.setText("Unblocking a file...");
-		  Block.unblock();
-		  this.status.setText("Doing nothing...");
+		  Block.block();
+		  this.status.setText("Status: Doing nothing...");
       break;
 		case 4:
+		  this.status.setText("Status: Unblocking a file...");
 		  JOptionPane.showMessageDialog(this, message[type] , buttons[type].getText(), JOptionPane.PLAIN_MESSAGE);
+		  Block.unblock();
+		  this.status.setText("Status: Doing nothing...");
       break;
 		case 5:
-		  JOptionPane.showMessageDialog(this, message[type] , buttons[type].getText(), JOptionPane.PLAIN_MESSAGE);
+		  this.status.setText("Status: Encrypting...");
+		  JRadioButton one1 = new JRadioButton("Choose a file from a directory");
+		  JRadioButton two1 = new JRadioButton("Create an ascii file");
+		  int choice1 = TwoRadioButtonPanel.showPanel(one1, two1, "ASCII file option");
+		  
+		  if(choice1 == 1)
+		  {
+		    JOptionPane.showMessageDialog(null, "Select an ASCII file for encryption", "Step 1 - Encryption", JOptionPane.PLAIN_MESSAGE);
+		    String data;
+        try {
+          data = FileUtilities.OpenAsciiFile();
+          if(data == "" || data == null)
+          {
+            JOptionPane.showMessageDialog(null, "File empty or null", "Exiting Encryption", JOptionPane.PLAIN_MESSAGE);
+            break;
+          }
+          EncryptionDecryption.encrypt(data);
+        } catch (IOException e) {
+          // TODO Auto-generated catch block
+          break;
+        }
+		  }
+		  else if(choice1 == 2)
+		  {
+		    JOptionPane.showMessageDialog(null, "Create an ASCII file", "Step 1 - Encryption", JOptionPane.PLAIN_MESSAGE);
+		    String data = FileUtilities.asciiEditor();
+		    
+		    if(data == "" || data == null)
+		    {
+		      JOptionPane.showMessageDialog(null, "File empty or null", "Exiting Encryption", JOptionPane.PLAIN_MESSAGE);
+          break;
+		    }
+		    EncryptionDecryption.encrypt(data);
+		  }
+		  this.status.setText("Status: Doing nothing...");
+      break;
+		case 6:
+		  this.status.setText("Status: Decrypting...");
+		  JOptionPane.showMessageDialog(null, "Select an Encrypted file for decryption", "Step 1 - Decryption", JOptionPane.PLAIN_MESSAGE);
+      String[] data;
+      try {
+        data = FileUtilities.OpenAsciiFileToArray();
+        
+        System.out.println("length: " + data.length);
+        for(int i = 0; i < data.length; i++)
+        {
+          System.out.println(data[i]);
+        }
+        if(data == null)
+        {
+          JOptionPane.showMessageDialog(null, "File empty or null", "Exiting Encryption", JOptionPane.PLAIN_MESSAGE);
+          break;
+        }
+        EncryptionDecryption.decrypt(data);
+      } catch (IOException e) {
+        // TODO Auto-generated catch block
+        break;
+      }
+      this.status.setText("Status: Doing nothing...");
       break;
 		default:
 		  // should never reach here

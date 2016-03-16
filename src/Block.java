@@ -2,8 +2,6 @@
 
 public class Block {
 
-  private static String[] blockedData;
-  private static String unblockedData;
   private static final int BLOCKSIZE = 8;
   
   public static void block()
@@ -13,7 +11,7 @@ public class Block {
       data = FileUtilities.OpenAsciiFile();
       if(data != null)
       {
-        blockAFile(data);
+        String[] blockedData = blockAFile(data);
         String fileName = FileUtilities.promptUserForFileName("Enter filename (without extensions): ");
         if(fileName != "")
           FileUtilities.writeAndSaveTextFile(blockedData, fileName);
@@ -24,9 +22,11 @@ public class Block {
     }
   }
   
-  private static void blockAFile(String data)
+  public static String[] blockAFile(String data)
   {
+    System.out.println("blockAFile()");
     int length = data.length();
+    System.out.println(data);
     HUI toBeBlocked = new HUI("0");
     for(int i = 0; i < length-1; i++)
     {
@@ -43,31 +43,49 @@ public class Block {
     }
     
     String result = toBeBlocked.getString();
-    int padding = result.length() % (BLOCKSIZE*2);
+    System.out.println(result);
+    int resultLength = result.length();
+    int padding = 0;
+    if(result.length() >= BLOCKSIZE)
+      padding = resultLength % (BLOCKSIZE*2);
+    else
+      padding = BLOCKSIZE * 2 - resultLength;
+      
+    System.out.println(padding);
     for(int i = 0; i < padding ; i++)
     {
       result = "0" + result;
     }
 
-    int numBlocks = (int) Math.ceil((double) data.length() / BLOCKSIZE);
-
-    blockedData = new String[numBlocks];
+    data.replace("\n", "");
+    System.out.println(data);
+    int ceilCheck = (toBeBlocked.getNumLength() % (BLOCKSIZE*2) == 0) ? 0 : 1;
+    int numBlocks = toBeBlocked.getNumLength()/ (BLOCKSIZE*2) + ceilCheck; 
+    System.out.println(numBlocks);
+    String[] dataBlocked = new String[numBlocks];
     int j = 0;
+    
+    System.out.println("Numblocks: " + numBlocks);
     for(int i = numBlocks-1; i >= 0; i--)
     {
-      blockedData[j] = result.substring(i*BLOCKSIZE*2, 2*BLOCKSIZE*(i + 1)); 
+    //if(2*BLOCKSIZE*(i + 1) < length)
+      dataBlocked[j] = result.substring(i*BLOCKSIZE*2, 2*BLOCKSIZE*(i + 1)); 
+//      else
+//        dataBlocked[j] = result.substring(i*BLOCKSIZE*2, length); 
       j++;
     }
+    
+    return dataBlocked;
   }
   
   public static void unblock()
   {
-    String data;
+    String[] data;
     try {
-      data = FileUtilities.OpenAsciiFile();
+      data = FileUtilities.OpenAsciiFileToArray();
       if(data != null)
       {
-        unblockAFile(data);
+        String unblockedData = unblockAFile(data);
         String fileName = FileUtilities.promptUserForFileName("Enter filename (without extensions): ");
         if(fileName != "")
           FileUtilities.writeAndSaveTextFile(unblockedData, fileName);
@@ -78,33 +96,37 @@ public class Block {
     }
   }
   
-  private static void unblockAFile(String data)
+  public static String unblockAFile(String[] data)
   {
-    unblockedData = "";
-    data = data.replace("\n", "");
-    System.out.println(data);
-    int length = data.length();
-    int numBlocks = length / (BLOCKSIZE*2);
-    System.out.println(numBlocks);
+    String unblockedData = "";
+    int length = data.length;
     
-    for(int i = 0; i < numBlocks; i++)
+    for(int i = 0; i < length; i++)
     {
-      for(int j = BLOCKSIZE*2 - 1; j >= 0; j -= 2)
+      int lineLength = data[i].length();
+      if(lineLength % 2 == 1)
       {
-        int x = j + i*BLOCKSIZE*2;
-        
-        int y = x - 1;
+        data[i] = "0" + data[i];
+        lineLength++;
+      }
+      for(int j = lineLength - 1; j >= 0; j -= 2)
+      {
         
         String asciiStr = "";
-        asciiStr += data.charAt(y);
-        asciiStr += data.charAt(x);
+        
+        int y = j;
+        int x = y - 1;
+        asciiStr += data[i].charAt(x);
+        asciiStr += data[i].charAt(y); 
+        
         if(!asciiStr.equals("00"))
         {
           int ascii = Integer.parseInt(asciiStr);
           ascii += 27;
           unblockedData += (char) ascii;
         }
-      }   
+      }  
     }
+    return unblockedData;
   }
 }
