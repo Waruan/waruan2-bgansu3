@@ -1,3 +1,5 @@
+import javax.swing.JOptionPane;
+
 /**
  * Authors: Byambasuren Gansukh (Ben), bgansu3
  *          Wieheng Ruan (Alex), waruan2
@@ -252,6 +254,7 @@ public class HUI {
 						}
 						if(number[len-1] == -1){
 							System.out.println("Neagtive number from subtraction");
+							JOptionPane.showMessageDialog(null, "Exiting: Negative number from subtraction", "Error", JOptionPane.ERROR_MESSAGE);
 							System.exit(0);
 						}
 						counter++;

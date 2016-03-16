@@ -282,7 +282,7 @@ public class FileUtilities {
       }
       
       return key;
-    } catch (ParserConfigurationException | SAXException | IOException e) {
+    } catch (Exception e) {
       // TODO Auto-generated catch block
       return null;
     }
