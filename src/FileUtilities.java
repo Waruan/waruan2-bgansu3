@@ -44,7 +44,8 @@ public class FileUtilities {
   public static String fileName;
   private static final Path currentRelativePath = Paths.get("");
   private static final String path = currentRelativePath.toAbsolutePath().toString();
-  private static final String currentPath = path + "\\waruan2-bgansu3\\";
+  //private static final String currentPath = path + "\\waruan2-bgansu3\\";
+  private static final String currentPath = path + "\\";
                                                    
   public static String OpenAsciiFile() throws IOException
   {
