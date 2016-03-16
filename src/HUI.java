@@ -909,10 +909,6 @@ public class HUI {
 		}
 		return resultHUI;
 	}
-	
-	
-	
-
 }
 
 

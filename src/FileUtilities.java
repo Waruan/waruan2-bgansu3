@@ -337,7 +337,7 @@ public class FileUtilities {
   @SuppressWarnings("resource")
   public static HUI getRandomPrimeFromFile()
   {
-    String fileName = "C:\\Users\\Ben\\CS342\\project3bgansu3\\waruan2-bgansu3\\primes.txt";
+    String fileName = currentPath + "primes.txt";
     int numLines = getNumberOfLinesOfFile(fileName);
     int randomLine = (int) (Math.random() * (numLines + 1));
     
