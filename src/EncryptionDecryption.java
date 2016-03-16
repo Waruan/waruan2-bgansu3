@@ -66,15 +66,15 @@ public class EncryptionDecryption {
     String asciiDecData = Block.unblockAFile(decryptedData);
     
     System.out.println(asciiDecData);
-//    JOptionPane.showMessageDialog(null, "Saving the decrypted data", "Step 4 - Encryption", JOptionPane.PLAIN_MESSAGE);
-//    String fileName = FileUtilities.promptUserForFileName("Enter filename (without extensions): ");
-//    if(fileName == "" || fileName == null)
-//    {
-//      JOptionPane.showMessageDialog(null, "Invalid file name", "Exiting Encryption", JOptionPane.PLAIN_MESSAGE);
-//      return;
-//    }
-//    FileUtilities.writeAndSaveTextFile(asciiDecData, fileName);
-//    JOptionPane.showMessageDialog(null, "Done decrypting!", "Decryption", JOptionPane.PLAIN_MESSAGE);
+    JOptionPane.showMessageDialog(null, "Saving the decrypted data", "Step 4 - Encryption", JOptionPane.PLAIN_MESSAGE);
+    String fileName = FileUtilities.promptUserForFileName("Enter filename (without extensions): ");
+    if(fileName == "" || fileName == null)
+    {
+      JOptionPane.showMessageDialog(null, "Invalid file name", "Exiting Encryption", JOptionPane.PLAIN_MESSAGE);
+      return;
+    }
+    FileUtilities.writeAndSaveTextFile(asciiDecData, fileName);
+    JOptionPane.showMessageDialog(null, "Done decrypting!", "Decryption", JOptionPane.PLAIN_MESSAGE);
   }
   
   private static String[] edData(String[] data, Key key, int type)
