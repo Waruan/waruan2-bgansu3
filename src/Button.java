@@ -1,3 +1,11 @@
+/**
+ * Authors: Byambasuren Gansukh (Ben), bgansu3
+ *          Wieheng Ruan (Alex), waruan2
+ *          
+ * Button.java:  Class that extends JButton.
+ *               Adds more functionality to a JButton.
+ */
+
 import javax.swing.JButton;
 
 @SuppressWarnings("serial")

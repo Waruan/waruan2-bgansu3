@@ -1,3 +1,10 @@
+/**
+ * Authors: Byambasuren Gansukh (Ben), bgansu3
+ *          Wieheng Ruan (Alex), waruan2
+ *          
+ * Key.java: Abstract class that holds a key
+ * 
+ */
 
 public class Key {
 

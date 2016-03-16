@@ -1,3 +1,11 @@
+/**
+ * Authors: Byambasuren Gansukh (Ben), bgansu3
+ *          Wieheng Ruan (Alex), waruan2
+ *          
+ * JUnitRunner.java: Runs HUITest
+ * 
+ */
+
 import org.junit.runner.JUnitCore;
 import org.junit.runner.Result;
 import org.junit.runner.notification.Failure;

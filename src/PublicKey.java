@@ -1,3 +1,10 @@
+/**
+ * Authors: Byambasuren Gansukh (Ben), bgansu3
+ *          Wieheng Ruan (Alex), waruan2
+ *          
+ * PublicKey: Class that extends Key
+ * 
+ */
 
 public class PublicKey extends Key {
   

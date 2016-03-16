@@ -1,3 +1,10 @@
+/**
+ * Authors: Byambasuren Gansukh (Ben), bgansu3
+ *          Wieheng Ruan (Alex), waruan2
+ *          
+ * HUITest.java: Class that tests HUI operations.
+ */
+
 import static org.junit.Assert.*;
 
 import org.junit.Test;

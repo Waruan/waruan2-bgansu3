@@ -1,3 +1,11 @@
+/**
+ * Authors: Byambasuren Gansukh (Ben), bgansu3
+ *          Wieheng Ruan (Alex), waruan2
+ *          
+ * Gui.java:  Class that deals with the GUI of the program. 
+ *            GUI consists of 7 buttons and a status label.
+ */
+
 import java.awt.Container;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -60,7 +68,8 @@ public class GUI extends JFrame implements ActionListener {
 	public void actionPerformed(ActionEvent event) {
 		Button temp = (Button) event.getSource();
 		int type = temp.getNumber();
-		
+		String blocksizeStr = "";
+		int blocksize = 8;
 		switch(type)
 		{
 		case 0:
@@ -78,13 +87,15 @@ public class GUI extends JFrame implements ActionListener {
 		case 2:
 		  this.status.setText("Status: Creating keys...");
 		  boolean canceled = false;
+		  JOptionPane.showMessageDialog(this, "IMPORTANT NOTE: a blocking size states how many CHARS in a given block\n"
+		        + " which means there would be twice as many DIGITS in a block. Thus to encrypt/decrypt whatever many DIGITS there are in a block\n" 
+		        + " You'd need a nvalue (prime1 * prime2) that has more digits than blocksize*2. Think carefully when choosing primes and the blocking size!", "IMPORTANT NOTE", JOptionPane.PLAIN_MESSAGE);
 		  HUI prime1 = new HUI("0");
 		  HUI prime2 = new HUI("0");
 		  JRadioButton one = new JRadioButton("I'd like you to randomly generate two prime numbers");
 		  JRadioButton two = new JRadioButton("I would like to provide two prime numbers");
 		  int choice = TwoRadioButtonPanel.showPanel(one,
 		      two, "Input vs Generate primes");
-		  
 		  if(choice == 1)
 		  {
 		    prime1 = FileUtilities.getRandomPrimeFromFile();
@@ -106,6 +117,22 @@ public class GUI extends JFrame implements ActionListener {
 		      prime2 = PrimeNumberInputPanel.getPrime2();
 		    }
 		  }
+		  blocksizeStr = JOptionPane.showInputDialog(this, "Enter block size (enter int): ", "Blocksize input", JOptionPane.OK_OPTION);
+      if(blocksizeStr == null || blocksizeStr == "")
+      {
+        JOptionPane.showMessageDialog(this, "Invalid input" , "Error", JOptionPane.PLAIN_MESSAGE);
+        this.status.setText("Status: Doing nothing...");
+        break;
+      }
+      try
+      {
+        blocksize = Integer.parseInt(blocksizeStr);
+      }
+      catch(NumberFormatException e)
+      {
+        JOptionPane.showMessageDialog(this, "Invalid input" , "Error", JOptionPane.PLAIN_MESSAGE);
+        break;
+      }
   		if((choice == 1 || choice == 2) && (!canceled))
   		{
   		  if(Utilities.isPrime(prime1) && Utilities.isPrime(prime2))
@@ -114,9 +141,8 @@ public class GUI extends JFrame implements ActionListener {
           PublicKey publicKey = key.getPublicKey();
           PrivateKey privateKey = key.getPrivateKey();
           
-//           Checking if number of digits of n is greater than 8, since
-//           our blocking size of use is 8
-          if(publicKey.getN().getString().length() > 8)
+          // Checking if n has more digits than blocksize*2 + 1, basically checking if n is enough to decrypt a file.
+          if(publicKey.getN().getString().length() > blocksize*2)
           {
             String fileName = FileUtilities.promptUserForFileName("Enter filename for Public Key (without extensions): ");
             if(fileName != null)
@@ -130,20 +156,42 @@ public class GUI extends JFrame implements ActionListener {
           else
           {
             JOptionPane.showMessageDialog(null,
-                  "Product of the two prime number is too small", "Invalid primes", JOptionPane.OK_OPTION); 
+                  "Product of the two prime number is too small for given blocksize", "Invalid primes", JOptionPane.OK_OPTION); 
+            this.status.setText("Status: Doing nothing...");
+            break;
           }
         }
   		  else
   		  {
           JOptionPane.showMessageDialog(null, "Invalid prime number input(s)", "Invalid primes", JOptionPane.OK_OPTION);
+          this.status.setText("Status: Doing nothing...");
+          break;
   		  }
   		}
   		this.status.setText("Status: Doing nothing...");
       break;
 		case 3:
 		  this.status.setText("Status: Blocking a file...");
+		  blocksizeStr = JOptionPane.showInputDialog(this, "Enter block size (enter int): ", "Blocksize input", JOptionPane.OK_OPTION);
+		  if(blocksizeStr == null || blocksizeStr == "")
+      {
+        JOptionPane.showMessageDialog(this, "Invalid input" , "Error", JOptionPane.PLAIN_MESSAGE);
+        this.status.setText("Status: Doing nothing...");
+        break;
+      }
+		  try
+		  {
+		    blocksize = Integer.parseInt(blocksizeStr);
+		  }
+		  catch(NumberFormatException e)
+		  {
+		    JOptionPane.showMessageDialog(this, "Invalid input" , "Error", JOptionPane.PLAIN_MESSAGE);
+		    this.status.setText("Status: Doing nothing...");
+        break;
+		  }
+      
 		  JOptionPane.showMessageDialog(this, message[type] , buttons[type].getText(), JOptionPane.PLAIN_MESSAGE);
-		  Block.block();
+		  Block.block(blocksize);
 		  this.status.setText("Status: Doing nothing...");
       break;
 		case 4:
@@ -154,6 +202,25 @@ public class GUI extends JFrame implements ActionListener {
       break;
 		case 5:
 		  this.status.setText("Status: Encrypting...");
+		  blocksizeStr = JOptionPane.showInputDialog(this, "Enter block size (enter int): ", "Blocksize input", JOptionPane.OK_OPTION);
+      if(blocksizeStr == null || blocksizeStr == "")
+      {
+        JOptionPane.showMessageDialog(this, "Invalid input" , "Error", JOptionPane.PLAIN_MESSAGE);
+        this.status.setText("Status: Doing nothing...");
+        break;
+      }
+      try
+      {
+        blocksize = Integer.parseInt(blocksizeStr);
+      }
+      catch(NumberFormatException e)
+      {
+        JOptionPane.showMessageDialog(this, "Invalid input" , "Error", JOptionPane.PLAIN_MESSAGE);
+        this.status.setText("Status: Doing nothing...");
+        break;
+      }
+		    
+		    blocksize = Integer.parseInt(blocksizeStr);
 		  JRadioButton one1 = new JRadioButton("Choose a file from a directory");
 		  JRadioButton two1 = new JRadioButton("Create an ascii file");
 		  int choice1 = TwoRadioButtonPanel.showPanel(one1, two1, "ASCII file option");
@@ -167,11 +234,13 @@ public class GUI extends JFrame implements ActionListener {
           if(data == "" || data == null)
           {
             JOptionPane.showMessageDialog(null, "File empty or null", "Exiting Encryption", JOptionPane.PLAIN_MESSAGE);
+            this.status.setText("Status: Doing nothing...");
             break;
           }
-          EncryptionDecryption.encrypt(data);
+          EncryptionDecryption.encrypt(data, blocksize);
         } catch (IOException e) {
           // TODO Auto-generated catch block
+          this.status.setText("Status: Doing nothing...");
           break;
         }
 		  }
@@ -183,9 +252,10 @@ public class GUI extends JFrame implements ActionListener {
 		    if(data == "" || data == null)
 		    {
 		      JOptionPane.showMessageDialog(null, "File empty or null", "Exiting Encryption", JOptionPane.PLAIN_MESSAGE);
+		      this.status.setText("Status: Doing nothing...");
           break;
 		    }
-		    EncryptionDecryption.encrypt(data);
+		    EncryptionDecryption.encrypt(data, blocksize);
 		  }
 		  this.status.setText("Status: Doing nothing...");
       break;
@@ -195,20 +265,22 @@ public class GUI extends JFrame implements ActionListener {
       String[] data;
       try {
         data = FileUtilities.OpenAsciiFileToArray();
-        
+        if(data == null)
+        {
+          JOptionPane.showMessageDialog(null, "File empty or null", "Exiting Encryption", JOptionPane.PLAIN_MESSAGE);
+          this.status.setText("Status: Doing nothing...");
+          break;
+        }
         System.out.println("length: " + data.length);
         for(int i = 0; i < data.length; i++)
         {
           System.out.println(data[i]);
         }
-        if(data == null)
-        {
-          JOptionPane.showMessageDialog(null, "File empty or null", "Exiting Encryption", JOptionPane.PLAIN_MESSAGE);
-          break;
-        }
+
         EncryptionDecryption.decrypt(data);
       } catch (IOException e) {
         // TODO Auto-generated catch block
+        this.status.setText("Status: Doing nothing...");
         break;
       }
       this.status.setText("Status: Doing nothing...");

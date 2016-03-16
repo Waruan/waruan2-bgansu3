@@ -1,3 +1,11 @@
+/**
+ * Authors: Byambasuren Gansukh (Ben), bgansu3
+ *          Wieheng Ruan (Alex), waruan2
+ *          
+ * HUI.java:  Class that deals with huge integers.
+ *            Includes binary and relative operations.
+ * 
+ */
 
 public class HUI {
 	private int len;

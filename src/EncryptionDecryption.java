@@ -1,12 +1,20 @@
+/**
+ * Authors: Byambasuren Gansukh (Ben), bgansu3
+ *          Wieheng Ruan (Alex), waruan2
+ *          
+ * EncryptionDecryption.java: Class that deals with encrypting a file and decrypting an encrypted file.
+ *                            All methods are static.
+ */
+
 import javax.swing.JOptionPane;
 
 public class EncryptionDecryption {
   
-  public static void encrypt(String data)
+  public static void encrypt(String data, int BLOCKSIZE)
   {
     System.out.println("encrypt()");
     JOptionPane.showMessageDialog(null, "Blocking the Data", "Step 2 - Encryption", JOptionPane.PLAIN_MESSAGE);
-    String[] data1 = Block.blockAFile(data);
+    String[] data1 = Block.blockAFile(data, BLOCKSIZE);
     for(int i = 0; i < data1.length; i++)
     {
       System.out.println(data1[i]);
@@ -57,15 +65,16 @@ public class EncryptionDecryption {
     }
     String asciiDecData = Block.unblockAFile(decryptedData);
     
-    JOptionPane.showMessageDialog(null, "Saving the decrypted data", "Step 4 - Encryption", JOptionPane.PLAIN_MESSAGE);
-    String fileName = FileUtilities.promptUserForFileName("Enter filename (without extensions): ");
-    if(fileName == "" || fileName == null)
-    {
-      JOptionPane.showMessageDialog(null, "Invalid file name", "Exiting Encryption", JOptionPane.PLAIN_MESSAGE);
-      return;
-    }
-    FileUtilities.writeAndSaveTextFile(asciiDecData, fileName);
-    JOptionPane.showMessageDialog(null, "Done decrypting!", "Decryption", JOptionPane.PLAIN_MESSAGE);
+    System.out.println(asciiDecData);
+//    JOptionPane.showMessageDialog(null, "Saving the decrypted data", "Step 4 - Encryption", JOptionPane.PLAIN_MESSAGE);
+//    String fileName = FileUtilities.promptUserForFileName("Enter filename (without extensions): ");
+//    if(fileName == "" || fileName == null)
+//    {
+//      JOptionPane.showMessageDialog(null, "Invalid file name", "Exiting Encryption", JOptionPane.PLAIN_MESSAGE);
+//      return;
+//    }
+//    FileUtilities.writeAndSaveTextFile(asciiDecData, fileName);
+//    JOptionPane.showMessageDialog(null, "Done decrypting!", "Decryption", JOptionPane.PLAIN_MESSAGE);
   }
   
   private static String[] edData(String[] data, Key key, int type)
@@ -121,8 +130,7 @@ public class EncryptionDecryption {
         System.out.println(i);
         HUI oddCheck = exp.Mod(2);
       if(oddCheck.HUIequals(1))
-      {
-         
+      {         
          accum = accum.multiplication(msg);
          
          accum = accum.Mod(mod);

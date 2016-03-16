@@ -1,3 +1,12 @@
+/**
+ * Authors: Byambasuren Gansukh (Ben), bgansu3
+ *          Wieheng Ruan (Alex), waruan2
+ *          
+ * FileUtilities.java:  Class that deals with all file usage.
+ *                      Writing/reading files, on both XML and just text files
+ *                      All methods are static.
+ */
+
 import java.awt.Dimension;
 import java.io.BufferedReader;
 import java.io.File;

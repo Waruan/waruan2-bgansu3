@@ -1,17 +1,21 @@
-
+/**
+ * Authors: Byambasuren Gansukh (Ben), bgansu3
+ *          Wieheng Ruan (Alex), waruan2
+ *          
+ * Block.java:  Class that deals with blocking and unblocking a file.
+ *              All methods are static.
+ */
 
 public class Block {
-
-  private static final int BLOCKSIZE = 8;
   
-  public static void block()
+  public static void block(int BLOCKSIZE)
   {
     String data;
     try {
       data = FileUtilities.OpenAsciiFile();
       if(data != null)
       {
-        String[] blockedData = blockAFile(data);
+        String[] blockedData = blockAFile(data, BLOCKSIZE);
         String fileName = FileUtilities.promptUserForFileName("Enter filename (without extensions): ");
         if(fileName != "")
           FileUtilities.writeAndSaveTextFile(blockedData, fileName);
@@ -22,7 +26,7 @@ public class Block {
     }
   }
   
-  public static String[] blockAFile(String data)
+  public static String[] blockAFile(String data, int BLOCKSIZE)
   {
     System.out.println("blockAFile()");
     int length = data.length();

@@ -1,3 +1,11 @@
+/**
+ * Authors: Byambasuren Gansukh (Ben), bgansu3
+ *          Wieheng Ruan (Alex), waruan2
+ *          
+ * PrimeNumberInputPanel.java:  Class that has a JPanel which is used to get prime numbers from user. 
+ * 
+ */
+
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;

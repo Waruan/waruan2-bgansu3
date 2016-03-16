@@ -1,8 +1,13 @@
+/**
+ * Authors: Byambasuren Gansukh (Ben), bgansu3
+ *          Wieheng Ruan (Alex), waruan2
+ *          
+ * TwoRadioButtonPanel.java:  Class that deals with checking for prime or coPrime.
+ */
+
 public class Utilities {
 
-
-  
-	public static boolean isPrime(HUI x){
+  public static boolean isPrime(HUI x){
 	  if(x.lessThanOrEqual(1))
 	    return false;
 	  

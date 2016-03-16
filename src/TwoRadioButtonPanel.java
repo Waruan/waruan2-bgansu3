@@ -1,3 +1,11 @@
+/**
+ * Authors: Byambasuren Gansukh (Ben), bgansu3
+ *          Wieheng Ruan (Alex), waruan2
+ *          
+ * TwoRadioButtonPanel.java:  Class that has a JPanel which is used to get user selection using JRadioButtons.
+ * 
+ */
+
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.JOptionPane;

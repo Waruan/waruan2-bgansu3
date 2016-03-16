@@ -1,3 +1,10 @@
+/**
+ * Authors: Byambasuren Gansukh (Ben), bgansu3
+ *          Wieheng Ruan (Alex), waruan2
+ *          
+ * KeyCreation.java:  Class that deals with creating a key
+ * 
+ */
 
 public class KeyCreation {
 

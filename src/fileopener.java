@@ -1,3 +1,10 @@
+/**
+ * Authors: Byambasuren Gansukh (Ben), bgansu3
+ *          Wieheng Ruan (Alex), waruan2
+ *          
+ * Fileopener: Class that deals with letting a user choose a file.
+ */
+
 import java.io.File;
 
 import javax.swing.JFileChooser;
