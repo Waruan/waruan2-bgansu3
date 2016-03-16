@@ -901,43 +901,6 @@ public class HUI {
 	
 	
 	
-	/*public static void main(String[] args) {
-		//throw away 0
-		HUI test = new HUI("1");
-		HUI test2 = new HUI("3");
-		//HUI sum = test.subtraction(test2);
-		//sum.R_display();
-		
-		
-		HUI test3 = new HUI("342");
-		HUI test4 = new HUI("12");
-		HUI diff = test3.division(test4);
-		//diff.R_display();
-		HUI test5 = new HUI("-");
-		//test5.R_display();
-		
-		HUI test6 = new HUI("100000000");
-		boolean temp = test6.lessThanOrEqual(new HUI("2"));
-		System.out.println(temp);
-		HUI tmp = test6.Mod(new HUI("2"));
-		tmp.R_display();
-		
-		//HUI result = test.division(new HUI("3"));
-		System.out.println("Main");
-		HUI test = new HUI("16420");
-		HUI tmp = test.Mod(new HUI("2"));
-		tmp.R_display();
-		
-		
-		//result.R_display();
-		boolean coPrime =  Utilities.coPrime(new HUI("6"),new HUI("25"));
-		System.out.println(coPrime);
-		boolean prime =  Utilities.isPrime(new HUI("16420"));
-		System.out.println(prime);
-		HUI test = new HUI("1");
-		test = test.addition(12);
-		test.R_display();
-	}*/
 
 }
 
